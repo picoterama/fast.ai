@@ -1,8 +1,13 @@
 # Practical Deep Learning For Coders
 Taught by Jeremy Howard
 
+## Links
+- [Getting Started Notes](http://course.fast.ai/start.html)
+- [Forums](http://forums.fast.ai/)
+
 ## TODO
 - Verify impact on scripts of output text
+Do the scripts require `output = text` in `~/.aws/config` ??
 
 ## Operation
 - ssh into host
@@ -13,9 +18,6 @@ jupyter notebook
 ## Setup 
 ### Bring up a GPU instance
 The first time this is run it creates a keypair: `~/.ssh/aws-key-fast-ai.pem`.
-
-The scripts require `output = text` in `~/.aws/config`
-
 ```
 cd setup
 bash setup_p2.sh
