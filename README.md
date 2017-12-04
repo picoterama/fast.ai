@@ -6,13 +6,20 @@ Taught by Jeremy Howard
 - [Forums](http://forums.fast.ai/)
 
 ## TODO
-- Verify impact on scripts of output text
-Do the scripts require `output = text` in `~/.aws/config` ??
+- re-create alias scripts
 
 ## Operation
-- ssh into host
+- setup aliases
 ```
-jupyter notebook
+export AWS_DEFAULT_OUTPUT=text
+. aws-alias.sh 
+aws-get-p2; aws-ip ; aws-state
+
+```
+- ssh into host
+- password `dl_course`
+```
+cd nbs; jupyter notebook
 ```
 
 ## Setup 
