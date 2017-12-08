@@ -1,12 +1,27 @@
 # Practical Deep Learning For Coders
 Taught by Jeremy Howard
 
-## Links
+## Links and References
 - [Getting Started Notes](http://course.fast.ai/start.html)
+- [Files](http://files.fast.ai/)
 - [Forums](http://forums.fast.ai/)
+- [Course repo on GitHub](https://github.com/fastai/courses/tree/master/setup)
+- http://course.fast.ai/index.html
+- [Tensoflow article on Toptal Blog](https://www.toptal.com/machine-learning/tensorflow-machine-learning-tutorial)
 
 ## TODO
+- docker
 - re-create alias scripts
+- convert pdf to png with [`sips`](https://ademcan.net/blog/2013/04/10/how-to-convert-pdf-to-png-from-the-command-line-on-a-mac/)
+  - `sips -s format png your_pdf_file.pdf --out your_png_file.png`
+- Run local conda in docker?
+
+## Docker on Mac
+See [Keras repo](https://github.com/fchollet/keras/tree/master/docker).
+
+## Lesson 1 alternative datasets:
+- [Distracted Driver](https://www.kaggle.com/c/state-farm-distracted-driver-detection/data)
+- [Galaxy Zoo](https://www.kaggle.com/c/galaxy-zoo-the-galaxy-challenge/data)
 
 ## Operation
 - setup aliases
@@ -14,8 +29,8 @@ Taught by Jeremy Howard
 export AWS_DEFAULT_OUTPUT=text
 . aws-alias.sh 
 aws-get-p2; aws-ip ; aws-state
-
 ```
+
 - ssh into host
 - password `dl_course`
 ```
@@ -62,8 +77,3 @@ Generate `fastai` user in IAM (imetrical account)
 ```
 brew install awscli
 ```
-
-
-## References
-- [Course repo on GitHub](https://github.com/fastai/courses/tree/master/setup)
-- http://course.fast.ai/index.html
