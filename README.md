@@ -6,10 +6,12 @@ Taught by Jeremy Howard
 - [Files](http://files.fast.ai/)
 - [Forums](http://forums.fast.ai/)
 - [Course repo on GitHub](https://github.com/fastai/courses/tree/master/setup)
-- http://course.fast.ai/index.html
+- [Conda Cheat Sheet](https://conda.io/docs/_downloads/conda-cheatsheet.pdf)
 - [Tensoflow article on Toptal Blog](https://www.toptal.com/machine-learning/tensorflow-machine-learning-tutorial)
 
 ## TODO
+- New approach: t2 instance + rsync
+- [Cloudformation](http://forums.fast.ai/t/aws-deep-learning-sandbox-with-efs-and-spot-instances-support/3643/3)
 - docker: Does  not work yet!
 - Repeatable anaconda2 setup on Mac: Not workingm see below
 - convert pdf to png with [`sips`](https://ademcan.net/blog/2013/04/10/how-to-convert-pdf-to-png-from-the-command-line-on-a-mac/)
@@ -25,8 +27,11 @@ conda create --name fastai
 source activate fastai
 conda install -y bcolz
 conda upgrade -y --all
-pip install keras==1.2.2 # --> implies theano
+pip install keras==1.1.0 # --> implies theano
 # edit ~/.keras/keras.json: "image_dim_ordering": "th", "backend": "theano"
+# downgrade theano
+pip install theano==0.8.2
+pip install h5py
 pip install matplotlib
 pip install pillow  # Same as PIL
 pip install sklearn
@@ -45,6 +50,9 @@ See [Keras repo](https://github.com/fchollet/keras/tree/master/docker).
 ```
 export AWS_DEFAULT_OUTPUT=text
 . aws-alias.sh 
+
+aws-get-t2; aws-ip ; aws-state
+# or
 aws-get-p2; aws-ip ; aws-state
 ```
 
@@ -55,18 +63,25 @@ cd nbs; jupyter notebook
 ```
 
 ## Setup 
-### Bring up a GPU instance
 The first time this is run it creates a keypair: `~/.ssh/aws-key-fast-ai.pem`.
 ```
 cd setup
+```
+### Bring up a CPU instance (t2.xlarge @ $0.18/h)
+```
+bash setup_t2.sh
+```
+### Bring up a GPU instance (p2.xlarge @ $0.90/h)
+```
 bash setup_p2.sh
-. aws-alias.sh
+```
 
+### Finish configuring
+```
 # ssh into instance and ...
 sudo chown ubuntu.ubuntu .bash_history
 # --or --
 sudo rm .bash_history
-
 ```
 
 And to tear it down
@@ -94,3 +109,8 @@ Generate `fastai` user in IAM (imetrical account)
 ```
 brew install awscli
 ```
+
+## Cleanup (local)
+- `~/anaconda2`
+- `~/.theano`
+- `~/.keras`
