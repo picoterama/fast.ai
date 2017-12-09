@@ -20,23 +20,6 @@ Taught by Jeremy Howard
 
 ## Anaconda on Mac
 Does not yet work: all kinds of version conflicts between theano, keras and vgg16
-- Following: https://github.com/fastai/courses/blob/master/setup/install-gpu.sh#L27:1
-- As per http://wiki.fast.ai/index.php/Local_install_(Windows_only:cpu)
-```
-conda create --name fastai
-source activate fastai
-conda install -y bcolz
-conda upgrade -y --all
-pip install keras==1.1.0 # --> implies theano
-# edit ~/.keras/keras.json: "image_dim_ordering": "th", "backend": "theano"
-# downgrade theano
-pip install theano==0.8.2
-pip install h5py
-pip install matplotlib
-pip install pillow  # Same as PIL
-pip install sklearn
-conda install mkl-service # not sure if this is required, but getting warning from notebook
-```
 
 ## Docker on Mac
 See [Keras repo](https://github.com/fchollet/keras/tree/master/docker).

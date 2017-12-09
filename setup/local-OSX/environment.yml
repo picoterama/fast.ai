@@ -1,0 +1,9 @@
+name: testai
+channels:
+- defaults
+dependencies:
+- bcolz=1.1.2=py27h1aa591a_0
+- pip:
+  - keras==1.1.0
+  - theano==0.8.2
+
