@@ -1,4 +1,4 @@
-name: testai
+name: fastai
 channels:
 - defaults
 dependencies:

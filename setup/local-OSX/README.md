@@ -10,30 +10,37 @@ Also used these as hints:
 - Following: https://github.com/fastai/courses/blob/master/setup/install-gpu.sh#L27:1
 - As per http://wiki.fast.ai/index.php/Local_install_(Windows_only:cpu)
 
+## Setup
+These commands create the required environment for lesson1
 ```
 conda env create -f environment.yml
+source activate fastai
 conda info --envs
-source activate testai
+```
 
+Replace the contents of ` ~/.keras/keras.json ` with:
+```
+{
+    "image_dim_ordering": "th", 
+    "epsilon": 1e-07, 
+    "floatx": "float32", 
+    "backend": "theano"
+}
+```
+
+## Test/Validate
+Smoke test: open the test/test-notebook.ipynb
+```
+jupyter notebook
+```
+
+## Cleanup
+This deletes our environment
+```
 source deactivate
-conda env remove --name testai
+conda env remove --name fastai
 ```
 
-By Hand,...
-```
-conda create --name testai
-source activate testai
-conda install -y bcolz
-
-conda upgrade -y --all
-
-pip install keras==1.1.0 # --> implies theano
-# edit ~/.keras/keras.json: "image_dim_ordering": "th", "backend": "theano"
-# downgrade theano
-pip install theano==0.8.2
-pip install h5py
-pip install matplotlib
-pip install pillow  # Same as PIL
-pip install sklearn
-conda install mkl-service # not sure if this is required, but getting warning from notebook
-```
+For fuller cleanup you may want to delete
+- `~/.keras`
+- `~/.theano`
