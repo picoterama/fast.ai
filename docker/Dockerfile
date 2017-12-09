@@ -28,6 +28,7 @@ USER keras
 # Python
 ARG python_version=3.5
 
+# DL adjust to checkout keras-1 branch
 RUN conda install -y python=${python_version} && \
     pip install --upgrade pip && \
     pip install tensorflow-gpu && \

@@ -1,18 +1,22 @@
 help:
 	@cat Makefile
 
-DATA?="${HOME}/Data"
+# DATA?="${HOME}/Data"
+DATA?=$(shell dirname `pwd`)/data
 GPU?=0
 DOCKER_FILE=Dockerfile
 DOCKER=GPU=$(GPU) nvidia-docker
 BACKEND=tensorflow
-PYTHON_VERSION?=3.5
+# PYTHON_VERSION?=3.5
+PYTHON_VERSION?=2.7
 CUDA_VERSION?=8.0
 CUDNN_VERSION?=6
 TEST=tests/
-SRC?=$(shell dirname `pwd`)
+SRC?=$(shell dirname `pwd`)/src
 
 build:
+	echo src $(SRC)
+	echo data $(DATA)
 	docker build -t keras --build-arg python_version=$(PYTHON_VERSION) --build-arg cuda_version=$(CUDA_VERSION) --build-arg cudnn_version=$(CUDNN_VERSION) -f $(DOCKER_FILE) .
 
 bash: build
