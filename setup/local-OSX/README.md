@@ -1,5 +1,25 @@
-# This is to develop locally on Mac OSX
+# Develop Locally on OSX with Docker
+This is to develop locally on docker, and eventually with docker-machine on AWS
 
+- [Anaconda](https://hub.docker.com/r/continuumio/anaconda/)
+- [Jupyter docker stacks](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook)
+- [nvidia-docker on AWS](https://github.com/NVIDIA/nvidia-docker/wiki/Deploy-on-Amazon-EC2)
+
+## Build image
+```
+docker build -t fastai:cpu .
+```
+
+## Run container
+This leverages volumes:
+- `/notebooks`: for ... notebooks and other sources
+- `/data`: note yet used
+- `/root/.keras/models`: to cache downloaded keras models
+```
+docker run -it --rm --name fastai -p 8888:8888 -v $(pwd)/test:/notebooks -v $(pwd)/models:/root/.keras/models fastai:cpu
+```
+
+# Develop locally on Mac OSX (directly)
 ## Anaconda
 
 Download and install Anaconda 2.7 from the [Anaconda download site](https://www.anaconda.com/download/#macos).

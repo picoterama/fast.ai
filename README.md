@@ -11,18 +11,13 @@ Taught by Jeremy Howard
 
 ## TODO
 - New approach: t2 instance + rsync
-- [Cloudformation](http://forums.fast.ai/t/aws-deep-learning-sandbox-with-efs-and-spot-instances-support/3643/3)
-- docker: Does  not work yet!
-- Repeatable anaconda2 setup on Mac: Not workingm see below
 - convert pdf to png with [`sips`](https://ademcan.net/blog/2013/04/10/how-to-convert-pdf-to-png-from-the-command-line-on-a-mac/)
   - `sips -s format png your_pdf_file.pdf --out your_png_file.png`
-- Run local conda in docker?
+  
+## Local Development
+Using local Anaconda install, and|or docker.
 
-## Anaconda on Mac
-Does not yet work: all kinds of version conflicts between theano, keras and vgg16
-
-## Docker on Mac
-See [Keras repo](https://github.com/fchollet/keras/tree/master/docker).
+See [`./setup/local-OSX`](./setup/local-OSX/README.md)
 
 ## Lesson 1 alternative datasets:
 - [Distracted Driver](https://www.kaggle.com/c/state-farm-distracted-driver-detection/data)
