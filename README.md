@@ -2,120 +2,115 @@
 
 Taught by Jeremy Howard
 
-## Reboot for v3
+This is a reboot for v3, see `./v1` for old notes.
 
-## v1 README below
+## Reboot for v3
 
 ## Links and References
 
-- [Getting Started Notes](http://course.fast.ai/start.html)
-- [Files](http://files.fast.ai/)
-- [Forums](http://forums.fast.ai/)
-- [Course repo on GitHub](https://github.com/fastai/courses/tree/master/setup)
-- [Conda Cheat Sheet](https://conda.io/docs/_downloads/conda-cheatsheet.pdf)
-- [Tensoflow article on Toptal Blog](https://www.toptal.com/machine-learning/tensorflow-machine-learning-tutorial)
+- [fast.ai Homepage](https://www.fast.ai/)
+- [Course Home](https://course.fast.ai/)
+- [Setup GCP](https://course.fast.ai/start_gcp.html)
 
-## TODO
+## Setup
 
-- New approach: t2 instance + rsync
-- convert pdf to png with [`sips`](https://ademcan.net/blog/2013/04/10/how-to-convert-pdf-to-png-from-the-command-line-on-a-mac/)
-  - `sips -s format png your_pdf_file.pdf --out your_png_file.png`
-  
-## Local Development
+I will use GCP/imetrical. No local resources yet, maybe docker later.
 
-Using local Anaconda install, and|or docker.
+I created as project named `fast-ai-20190808`
 
-See [`./setup/local-OSX`](./setup/local-OSX/README.md)
-
-## Lesson 1 alternative datasets:
-
-- [Distracted Driver](https://www.kaggle.com/c/state-farm-distracted-driver-detection/data)
-- [Galaxy Zoo](https://www.kaggle.com/c/galaxy-zoo-the-galaxy-challenge/data)
-
-## Operation
-
-- setup aliases
+### Auth account
 
 ```bash
-export AWS_DEFAULT_OUTPUT=text
-. aws-alias.sh 
-
-aws-get-t2; aws-ip ; aws-state
-# or
-aws-get-p2; aws-ip ; aws-state
+# gcloud settings
+gcloud auth list
+gcloud config set account `daniel.lauzon@imetrical.com`
 ```
 
-- ssh into host
-- password `dl_course`
+### Project/Region/Zone
 
 ```bash
-cd nbs; jupyter notebook
+# tl;dr
+gcloud config set project fast-ai-20190808
+gcloud config set compute/region northamerica-northeast1
+gcloud config set compute/zone northamerica-northeast1-b
+
+# default config kept in  ~/.config/gcloud/configurations/config_default
+# get configured values:
+gcloud info
+gcloud config list
+
+gcloud config set project fast-ai-20190808
+
+gcloud compute regions list
+gcloud config set compute/region northamerica-northeast1
+
+gcloud compute zones list
+gcloud config set compute/zone northamerica-northeast1-b
 ```
 
-## Setup 
+### Create instance
 
-The first time this is run it creates a keypair: `~/.ssh/aws-key-fast-ai.pem`.
+Needed to adjust IAM Admin/Quotas/ComputeEngin GPUs (all regions): 0->1
+which requires approval.
 
 ```bash
-cd setup
+# recommended
+export IMAGE_FAMILY="pytorch-latest-gpu"
+export INSTANCE_NAME="fast-ai-gpu-01"
+export INSTANCE_TYPE="n1-highmem-8"
+export ACCELERATOR="type=nvidia-tesla-p4,count=1"
+
+gcloud compute instances create ${INSTANCE_NAME} \
+  --image-family="${IMAGE_FAMILY}" \
+  --image-project=deeplearning-platform-release \
+  --maintenance-policy=TERMINATE \
+  --accelerator="${ACCELERATOR}" \
+  --machine-type="${INSTANCE_TYPE}" \
+  --boot-disk-size=200GB \
+  --metadata="install-nvidia-driver=True" \
+  --preemptible
+
+# budget
+export IMAGE_FAMILY="pytorch-latest-cpu"
+export INSTANCE_NAME="fast-ai-cpu-01"
+export INSTANCE_TYPE="n1-highmem-4"
+# k80 not available in northamerica-northeast1-[a,b,c]
+# gcloud compute accelerator-types list|grep northam
+# export ACCELERATOR="type=nvidia-tesla-k80,count=1"
+
+gcloud compute instances create ${INSTANCE_NAME} \
+  --image-family="${IMAGE_FAMILY}" \
+  --image-project=deeplearning-platform-release \
+  --maintenance-policy=TERMINATE \
+  --machine-type="${INSTANCE_TYPE}" \
+  --boot-disk-size=200GB \
+  --metadata="install-nvidia-driver=True" \
+  --preemptible
 ```
 
-### Bring up a CPU instance (t2.xlarge @ $0.18/h)
+### Accessing the instance
 
 ```bash
-bash setup_t2.sh
+gcloud compute ssh jupyter@${INSTANCE_NAME} -- -L 8080:localhost:8080
+open  http://localhost:8080/tree
 ```
 
-### Bring up a GPU instance (p2.xlarge @ $0.90/h)
-
-```
-bash setup_p2.sh
-```
-
-### Finish configuring
+#### Updating tutorial and environment (on instance)
 
 ```bash
-# ssh into instance and ...
-sudo chown ubuntu.ubuntu .bash_history
-# --or --
-sudo rm .bash_history
+cd tutorials/fastai/course-v3
+git checkout .
+git pull
+
+sudo /opt/anaconda3/bin/conda install -c fastai fastai
 ```
 
-And to tear it down
+### Stop/Restart instance
 
 ```bash
-cd setup
-./fast-ai-remove.sh 
+gcloud compute instances list
+gcloud compute instances stop ${INSTANCE_NAME}
+gcloud compute instances start ${INSTANCE_NAME}
+
+gcloud compute instances delete ${INSTANCE_NAME}
 ```
-
-### Upstream repo ans scripts
-
-Keep a handy link to the upstream repo in a local folder.
-
-```bash
-git clone https://github.com/fastai/courses.git upstream
-```
-
-### Local Python [Anaconda](https://www.anaconda.com/download/#macos)
-
-- Installed version 5.0.1 on dirac
-- Can't I just use docker?
-
-Here is the links to uninstall:
-
-- [Stack Overflow](https://stackoverflow.com/questions/22585235/python-anaconda-how-to-safely-uninstall)
-- [Anaconda Docs](https://docs.anaconda.com/anaconda/install/uninstall)
-
-### [AWS](http://course.fast.ai/lessons/aws.html)
-
-Generate `fastai` user in IAM (imetrical account)
-
-```bash
-brew install awscli
-```
-
-## Cleanup (local)
-
-- `~/anaconda2`
-- `~/.theano`
-- `~/.keras`
