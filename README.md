@@ -16,7 +16,7 @@ This is a reboot for v3, see `./v1` for old notes.
 
 I will use GCP/imetrical. No local resources yet, maybe docker later.
 
-I created as project named `fast-ai-20190808`
+I created as project named `fast-ai-20190812`
 
 ### Auth account
 
@@ -30,7 +30,7 @@ gcloud config set account `daniel.lauzon@imetrical.com`
 
 ```bash
 # tl;dr
-gcloud config set project fast-ai-20190808
+gcloud config set project fast-ai-20190812
 gcloud config set compute/region northamerica-northeast1
 gcloud config set compute/zone northamerica-northeast1-b
 
@@ -39,7 +39,7 @@ gcloud config set compute/zone northamerica-northeast1-b
 gcloud info
 gcloud config list
 
-gcloud config set project fast-ai-20190808
+gcloud config set project fast-ai-20190812
 
 gcloud compute regions list
 gcloud config set compute/region northamerica-northeast1
